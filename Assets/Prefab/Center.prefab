@@ -12,15 +12,15 @@ GameObject:
   - component: {fileID: 8186808006557455381}
   - component: {fileID: 455973685241538679}
   - component: {fileID: 408869255085550135}
-  - component: {fileID: 5599363905461471967}
   - component: {fileID: 5197822821011265840}
+  - component: {fileID: 5599363905461471967}
   m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &672603969084871927
 Transform:
   m_ObjectHideFlags: 0
@@ -114,20 +114,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5599363905461471967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5883233895489382910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aee4d65164c06442857b22c7827def2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildObject
-  red: {fileID: 2100000, guid: 68e8ad7f7e9c7b44e94a687db6c30925, type: 2}
-  green: {fileID: 2100000, guid: 6e3ce954d997bda42b758068735c43f6, type: 2}
 --- !u!54 &5197822821011265840
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -155,3 +141,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5599363905461471967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883233895489382910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aee4d65164c06442857b22c7827def2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildObject
+  red: {fileID: 2100000, guid: 68e8ad7f7e9c7b44e94a687db6c30925, type: 2}
+  green: {fileID: 2100000, guid: 6e3ce954d997bda42b758068735c43f6, type: 2}
