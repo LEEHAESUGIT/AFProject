@@ -1,66 +1,95 @@
 using System;
 using UnityEngine;
 
+public interface ICamera
+{
+	public void Move(CameraInfo info);
+	public void Zoom(CameraInfo info);
+}
+
 public class CameraController : MonoBehaviour
 {
-	Camera mainCamera;
+	private ICamera strategy;
 
-	[field: SerializeField]
-	public float cameraMoveSpeed { get; private set; }
-	[field: SerializeField]
-	public float cameraZoomSpeed { get; private set; }
-	[field: SerializeField]
-	public float cameraZoomMax { get; private set; }
-	[field: SerializeField]
-	public float cameraZoomMin { get; private set; }
-	[field: SerializeField]
-	public float zoomDirection { get; private set; }
-
-
-
+	CameraController() { }
 
 	void Start()
 	{
-		mainCamera = this.GetComponent<Camera>();
-		cameraMoveSpeed = 100f;
-		cameraZoomSpeed = 50f;
-		cameraZoomMax = 150f;
-		cameraZoomMin = 10f;
+		if (Camera.main.orthographic)
+		{
+			GetComponent<CameraInfo>().SetOrthoGraphic();
+			strategy = new Projection_OrthoGraphic();
+		}
+		else
+		{
+			GetComponent<CameraInfo>().SetPerspective();
+			strategy = new Projection_Perspective();
+		}
 	}
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-
-		zoom();
-		move();
-
+		strategy.Move(this.GetComponent<CameraInfo>());
+		strategy.Zoom(this.GetComponent<CameraInfo>());
 	}
 
-	private void move()
+}
+
+
+public class Projection_OrthoGraphic : ICamera
+{
+	public  void Move(CameraInfo info)
 	{
 		//Keyboard
-		if (Input.GetKey(KeyCode.W)) { transform.position += new Vector3(0, 1f, 0) * cameraMoveSpeed * Time.deltaTime; }
-		if (Input.GetKey(KeyCode.S)) { transform.position += new Vector3(0, -1f, 0) * cameraMoveSpeed * Time.deltaTime; }
-		if (Input.GetKey(KeyCode.A)) { transform.position += new Vector3(-1f, 0, 0) * cameraMoveSpeed * Time.deltaTime; }
-		if (Input.GetKey(KeyCode.D)) { transform.position += new Vector3(1f, 0, 0) * cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.W)) { Camera.main.transform.position += new Vector3(0, 1f, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.S)) { Camera.main.transform.position += new Vector3(0, -1f, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.A)) { Camera.main.transform.position += new Vector3(-1f, 0, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.D)) { Camera.main.transform.position += new Vector3(1f, 0, 0) * info.cameraMoveSpeed * Time.deltaTime; }
 		//mouse ScrollWheel Click
 		if (Input.GetKey(KeyCode.Mouse2))
 		{
 			float mousePosX = -Input.GetAxis("Mouse X");
 			float mousePosY = -Input.GetAxis("Mouse Y");
 
-			transform.position += new Vector3(mousePosX, mousePosY, 0) * cameraMoveSpeed * Time.deltaTime;	
+			Camera.main.transform.position += new Vector3(mousePosX, mousePosY, 0) * info.cameraMoveSpeed * Time.deltaTime;
 		}
 	}
-	private void zoom()
+	public void Zoom(CameraInfo info)
 	{
-		zoomDirection = Input.GetAxis("Mouse ScrollWheel");
-		mainCamera.fieldOfView += zoomDirection * cameraZoomSpeed;
-		if (mainCamera.fieldOfView >= cameraZoomMax)
-			mainCamera.fieldOfView = cameraZoomMax;
-		if (mainCamera.fieldOfView <= cameraZoomMin)
-			mainCamera.fieldOfView = cameraZoomMin;
+		float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
+		Camera.main.orthographicSize += zoomDirection * info.cameraZoomSpeed;
+		if (Camera.main.orthographicSize >= info.cameraZoomMax)
+			Camera.main.orthographicSize = info.cameraZoomMax;
+		if (Camera.main.orthographicSize <= info.cameraZoomMin)
+			Camera.main.orthographicSize = info.cameraZoomMin;
 	}
+}
+public class Projection_Perspective : ICamera
+{
+	public void Move(CameraInfo info)
+	{
+		//Keyboard
+		if (Input.GetKey(KeyCode.W)) { Camera.main.transform.position += new Vector3(0, 1f, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.S)) { Camera.main.transform.position += new Vector3(0, -1f, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.A)) { Camera.main.transform.position += new Vector3(-1f, 0, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		if (Input.GetKey(KeyCode.D)) { Camera.main.transform.position += new Vector3(1f, 0, 0) * info.cameraMoveSpeed * Time.deltaTime; }
+		//mouse ScrollWheel Click
+		if (Input.GetKey(KeyCode.Mouse2))
+		{
+			float mousePosX = -Input.GetAxis("Mouse X");
+			float mousePosY = -Input.GetAxis("Mouse Y");
 
+			Camera.main.transform.position += new Vector3(mousePosX, mousePosY, 0) * info.cameraMoveSpeed * Time.deltaTime;
+		}
+	}
+	public void Zoom(CameraInfo info)
+	{
+		float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
+		Camera.main.fieldOfView += zoomDirection * info.cameraZoomSpeed;
+		if (Camera.main.fieldOfView >= info.cameraZoomMax)
+			Camera.main.fieldOfView = info.cameraZoomMax;
+		if (Camera.main.fieldOfView <= info.cameraZoomMin)
+			Camera.main.fieldOfView = info.cameraZoomMin;
+	}
 }
