@@ -11,25 +11,25 @@ public class CameraInfo : MonoBehaviour
 	[field: SerializeField]
 	public float cameraZoomMin { get; private set; }
 
-	private void Start()
-	{
-		// default : perspective
-		this.cameraMoveSpeed = 100f;
-		this.cameraZoomSpeed = 50f;
-		this.cameraZoomMax = 150f;
-		this.cameraZoomMin = 10f;
-	}
+	//private void Start()
+	//{
+	//	// default : perspective
+	//	this.cameraMoveSpeed = 10f;
+	//	this.cameraZoomSpeed = 50f;
+	//	this.cameraZoomMax = 150f;
+	//	this.cameraZoomMin = 10f;
+	//}
 
 	public void SetOrthoGraphic()
 	{
-		this.cameraMoveSpeed = 100f;
-		this.cameraZoomSpeed = 50f;
+		this.cameraMoveSpeed = 10f;
+		this.cameraZoomSpeed = 5f;
 		this.cameraZoomMax = 25f;
-		this.cameraZoomMin = 5f;
+		this.cameraZoomMin = 1f;
 	}
 	public void SetPerspective()
 	{
-		this.cameraMoveSpeed = 100f;
+		this.cameraMoveSpeed = 10f;
 		this.cameraZoomSpeed = 50f;
 		this.cameraZoomMax = 150f;
 		this.cameraZoomMin = 10f;

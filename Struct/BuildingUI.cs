@@ -5,46 +5,60 @@ using UnityEngine;
 //  이미지 ,색
 public class BuildingUI : MonoBehaviour
 {
+	[field: SerializeField]
+	public float SizeX { get; private set; }
+	[field: SerializeField]
+	public float SizeY { get; private set; }
+	[field: SerializeField]
+	public float SizeZ { get; private set; }
+
+
+	
+	public Material DefaultMaterial;
+	public Material Red;
+	public Material Green;
+	
+
+
 	private Renderer buildingRenderer;
-	private BuildingInfo buildingInfo;
 
-
-	public Material red;
-	public Material green;
-
-
-
-	private void Start()
+	private void Awake()
 	{
-		this.buildingInfo = GetComponent<BuildingInfo>();
 		this.buildingRenderer = GetComponent<Renderer>();
+		DefaultMaterial = buildingRenderer.material;
+	
+		BuildingObjectScaleSize();
 	}
 	
 
 	// Size
-	public void BuildingObjectScaleSize(Grid timeGrid)
+	public void BuildingObjectScaleSize()
 	{
-		this.transform.localScale = new Vector3(XCellGapSizeCaculator(timeGrid), YCellGapSizeCaculator(timeGrid), -1f);
+		this.transform.localScale = new Vector3(XCellGapSizeCaculator(), YCellGapSizeCaculator(), 1f);
 	}
-	private float XCellGapSizeCaculator(Grid tileGrid)
+	private float XCellGapSizeCaculator()
 	{
-		float resultX = buildingInfo.CellSizeX;
-		return resultX + (tileGrid.cellGap.x * (resultX - 1));
+		float resultX = SizeX;
+		return resultX - 0.2f;
 	}
-	private float YCellGapSizeCaculator(Grid tileGrid)
+	private float YCellGapSizeCaculator()
 	{
-		float resultY = buildingInfo.CellSizeY;
-		return resultY + (tileGrid.cellGap.y * (resultY - 1));
+		float resultY = SizeY;
+		return resultY - 0.2f;	
 	}
 
 	// Color
-	public void ChangeGreen()
+	public void ChangeDefaultColor()
 	{
-		this.buildingRenderer.material = green;
+		this.buildingRenderer.material = DefaultMaterial;
 	}
-	public void ChangeRed()
+	public void ChangeGreenColor()
 	{
-		this.buildingRenderer.material = red;
+		this.buildingRenderer.material = Green;
+	}
+	public void ChangeRedColor()
+	{
+		this.buildingRenderer.material = Red;
 	}
 
 
