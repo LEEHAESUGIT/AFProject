@@ -1,8 +1,7 @@
 ﻿
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 // Archetype
 // 틀 이라는 어원에 맞게 컴포넌트모임을 틀을 잡아 준다. 
 // 리스트를 사용해 Chunck배열을 관리한다.
@@ -17,7 +16,7 @@ namespace ECSCore
 		internal readonly List<Chunk> Chunks = new();
 
 		// 불변
-		internal readonly Dictionary<ComponentTypeID, int> TypeIndexMap = new();
+		internal readonly Dictionary<int, int> TypeIndexMap = new();
 		internal readonly Type[] Types;
 		internal readonly int ChunkMaxSize;
 
@@ -39,13 +38,13 @@ namespace ECSCore
 		// capacitySize = 16384 == 16kb
 		internal Archetype(Type[] types, int memorySize)
 		{
-			Types = types.OrderBy(t => t.FullName).ToArray();
-			ChunkMaxSize = Tool.CaculatorCapacityForSize(memorySize, types);
+			Types = types;
+			ChunkMaxSize = Tool.CaculatorCapacityForSize(memorySize, Types);
 			Chunks.Add(new Chunk(this));
 
 			for (int i = 0; i < Types.Length; i++)
 			{
-				TypeIndexMap.Add(new ComponentTypeID(ComponentTypeRegister.GetID(Types[i])), i);
+				TypeIndexMap.Add(ComponentTypeRegister.GetID(Types[i]), i);
 			}
 		}
 		private Chunk createChunk()
@@ -68,14 +67,17 @@ namespace ECSCore
 		}
 		internal bool IsNeedInit()
 		{
-			foreach(var a in TypeIndexMap)
-			{
-				if(a.Key.ID == ComponentTypeRegister.GetID(typeof(NeedInit)))
-				{
-					return true;
-				}
-			}
-			return false;
+
+			return TypeIndexMap.ContainsKey(ComponentTypeRegister.GetID(typeof(NeedInit)));
+
+			//foreach(var a in TypeIndexMap)
+			//{
+			//	if(a.Key.ID == ComponentTypeRegister.GetID(typeof(NeedInit)))
+			//	{
+			//		return true;
+			//	}
+			//}
+			//return false;
 		}
 
 		// 엔티티를 집어넣어 아키타입에서 현재 포함된 엔티티를 알수 있고,

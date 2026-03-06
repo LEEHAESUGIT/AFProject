@@ -15,6 +15,23 @@ namespace ECSCore
 			ComponentTypeRegister.Set(typeof(GasComponent));
 			ComponentTypeRegister.Set(typeof(DelayTimeComponent));
 			
+
+
+
+
+
+
+
+														 // Status
+			//ComponentTypeRegister.Set(typeof(HPComponent));
+			//ComponentTypeRegister.Set(typeof(ATKComponent));
+			//ComponentTypeRegister.Set(typeof(DEFComponent));
+
+			//// 
+			//ComponentTypeRegister.Set(typeof(EXPComponent));
+			//ComponentTypeRegister.Set(typeof(GOLDComponent));
+			//ComponentTypeRegister.Set(typeof(SPEEDComponent));
+
 		}
 	}
 

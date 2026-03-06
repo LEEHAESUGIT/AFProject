@@ -10,10 +10,6 @@
 // EntityManager 관리.
 // 아키타입생성에 필요한 타입들을 대입.
 
-// 컴포넌트를 추가할때 필수 적으로 IComponentData 인터페이스를 상속받는 구조체를 만든 후
-// ComponentTypeRegister의 Set으로 미리 저장해놔야 한다.
-
-
 // 생성
 // 객체가 생성될때 외부에서 UI,prefab 등 무언가 생성되고 그것에 대한 데이터가 필요할때 
 // 월드 내부에서는 타입에 맞는 아키타입, 그리고 그것에 맞는 청크를 생성하고 청크배열을 확보한다.
@@ -35,6 +31,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace ECSCore
 {
@@ -63,6 +60,8 @@ namespace ECSCore
 			//		NeedInit컴포넌트 삽입.
 			//		발급받은 엔티티ID, NeedInit이 포함된 컴포넌트 타입을 기준으로 엔티티 생성
 			// fin
+			if(IsTypeDuplication(out int[] sortTypeIDS , componentTypes))
+				throw new ArgumentException("ComponentType Dublication ");
 
 			if (componentTypes.Length == 0)
 				throw new ArgumentException("Nothing Types");
@@ -156,15 +155,12 @@ namespace ECSCore
 				throw new InvalidOperationException("This Entity Is Need Init");
 
 
-			
-			foreach( var typeIndex in record.CapturedArchetype.TypeIndexMap)
+			if(record.CapturedArchetype.TypeIndexMap.TryGetValue(ComponentTypeRegister.GetID(typeof(T)), out int typeIndex))
 			{
-				if(typeIndex.Key.ID == ComponentTypeRegister.GetID(typeof(T)))
-				{
-					return ref record.CapturedChunk.Get<T>(typeIndex.Value, record.IndexInChunk);
-				}
+				return ref record.CapturedChunk.Get<T>(typeIndex,record.IndexInChunk);
 			}
-			throw new InvalidOperationException();
+			throw new InvalidOperationException("didn't find ComponentType");
+
 			//var typeIndex = record.CapturedArchetype.TypeIndexMap[new ComponentTypeID(ComponentTypeRegister.GetID(typeof(T)))];
 			//return ref record.CapturedChunk.Get<T>(typeIndex, record.IndexInChunk);
 
@@ -193,7 +189,7 @@ namespace ECSCore
 
 		#region Has
 		// Has
-		internal bool Has(Entity entity)
+		public bool Has(Entity entity)
 		{
 			if (!entityManager._entityRecord.TryGetValue(entity.ID, out var record))
 			{
@@ -206,6 +202,29 @@ namespace ECSCore
 			return true;
 		}
 		#endregion
+		internal bool IsTypeDuplication(out int[] sortTypes ,params Type[] types)
+		{
+			//Types = types.OrderBy(t => t.FullName).ToArray();
+			HashSet<int> set = new HashSet<int>();
+
+			sortTypes = new int[types.Length];
+
+			int count = 0;
+			foreach (Type type in types)
+			{
+				int id = ComponentTypeRegister.GetID(type);
+				sortTypes[count++] = id;
+				if(!set.Add(id))
+				{
+					return true;
+				}
+			}
+			Array.Sort(sortTypes);
+ 			return false;
+		}
+
+
+
 	}
 
 }

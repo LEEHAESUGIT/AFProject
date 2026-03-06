@@ -34,7 +34,8 @@ public class BuildingUI : MonoBehaviour
 	// Size
 	public void BuildingObjectScaleSize()
 	{
-		this.transform.localScale = new Vector3(XCellGapSizeCaculator(), YCellGapSizeCaculator(), 1f);
+		//this.transform.localScale = new Vector3(XCellGapSizeCaculator(), YCellGapSizeCaculator(), 1f);
+		this.transform.localScale = new Vector3(SizeX, SizeY, 1f);
 	}
 	private float XCellGapSizeCaculator()
 	{

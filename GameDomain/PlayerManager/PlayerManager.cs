@@ -16,11 +16,6 @@ public class PlayerManager : MonoBehaviour
 		StartCoroutine(increaseResources());
 	}
 
-	public void Update()
-	{
-
-	}
-
 
 	private Entity createData()
 	{

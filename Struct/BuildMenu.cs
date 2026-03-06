@@ -23,8 +23,12 @@ public class BuildMenu : MonoBehaviour
     {
         GameObject build = Instantiate(BuildPrefab[1]);
 		BuildMG.SetBuildObejct(build);
-
 	}
+    public void MiningMachineSpawn()
+    {
+        GameObject build = Instantiate(BuildPrefab[2]);
+        BuildMG.SetBuildObejct(build);
+    }
     public void DeleteBuilding()
     {
         BuildMG.IsDelete = true;

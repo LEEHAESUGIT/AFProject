@@ -1,18 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ECSCore
 {
 	
-	internal class ComponentTypeID
-	{
-		internal readonly int ID;
-		internal ComponentTypeID(int id) => ID = id;
-	}
-
 	internal static class ComponentTypeRegister
 	{
 		internal static readonly Dictionary<Type, int> typeToID = new();
