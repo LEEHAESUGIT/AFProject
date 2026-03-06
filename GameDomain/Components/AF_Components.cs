@@ -32,5 +32,9 @@ public struct DelayTimeComponent : IComponentData
 {
 	public float value { get; set; }
 }
+public struct BuildActiveComponent : IComponentData
+{
+	public bool Is { get; set; }
 
+}
 

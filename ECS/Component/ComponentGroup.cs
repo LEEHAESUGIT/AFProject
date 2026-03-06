@@ -14,6 +14,7 @@ namespace ECSCore
 			ComponentTypeRegister.Set(typeof(GoldComponent));
 			ComponentTypeRegister.Set(typeof(GasComponent));
 			ComponentTypeRegister.Set(typeof(DelayTimeComponent));
+			ComponentTypeRegister.Set(typeof(BuildActiveComponent));
 			
 
 

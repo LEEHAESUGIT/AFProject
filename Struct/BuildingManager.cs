@@ -75,15 +75,25 @@ public class BuildingManager : MonoBehaviour
 		if (!TileMG.IsCellHasTile(cellPos))
 			throw new InvalidOperationException();
 
+
+
 		return TileMG.GetCellCenterPos(cellPos);
 	}
 
 
 	public void TrackingMouseAtTile(Vector3 cellCenterPos)
 	{
+		float PosX;
+		float PosY;
+
+		PosX = UI.SizeXEvenOrOdd() ? cellCenterPos.x - 0.5f : cellCenterPos.x;
+		PosY = UI.SizeYEvenOrOdd() ? cellCenterPos.y + 0.5f : cellCenterPos.y;
+
+
 		if (NowSelectBuildingObject != null)
-			NowSelectBuildingObject.transform.position = new Vector3(cellCenterPos.x , cellCenterPos.y , cellCenterPos.z - 0.1f);
+			NowSelectBuildingObject.transform.position = new Vector3(PosX, PosY, cellCenterPos.z - 0.1f);
 	}
+
 
 
 	public void BuildObject()
@@ -101,6 +111,7 @@ public class BuildingManager : MonoBehaviour
 
 		}
 	}
+
 	public void SetBuildObejct(GameObject building)
 	{
 		this.NowSelectBuildingObject = building;

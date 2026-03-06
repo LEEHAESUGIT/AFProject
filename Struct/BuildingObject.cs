@@ -17,8 +17,9 @@ using UnityEngine.UIElements;
 // 건물의 메인 로직
 public class BuildingObject : MonoBehaviour
 {
+	// Building
 	private readonly List<Collider> contactCollider = new List<Collider>();
-
+	
 	[field: SerializeField]
 	public bool IsMove { get; set; } = false;
 	[field: SerializeField]

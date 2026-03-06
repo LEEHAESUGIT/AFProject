@@ -61,6 +61,15 @@ public class BuildingUI : MonoBehaviour
 	{
 		this.buildingRenderer.material = Red;
 	}
-
+	// Even = true;
+	// Odd = false;
+	public bool SizeXEvenOrOdd()
+	{
+		return SizeX % 2 == 0 ? true : false; 
+	}
+	public bool SizeYEvenOrOdd()
+	{
+		return SizeY % 2 == 0 ? true : false; 
+	}
 
 }
