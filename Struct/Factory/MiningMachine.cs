@@ -6,9 +6,12 @@ using UnityEngine;
 public class MiningMachine : MonoBehaviour
 {
 	// 지연시간
-	public Entity ECS_EntityID { get; private set; }
+	public Entity ECS_Entity { get; private set; }
 
-	
+	[field:SerializeField]
+	public float DelayTime { get; private set; }
+	[field:SerializeField]
+	public bool IsBuildActive { get; private set; }
 	
 	
 	
@@ -20,24 +23,25 @@ public class MiningMachine : MonoBehaviour
 
 	private void Start()
 	{
-		ECS_EntityID = createEntity();
-		ECSWorld.ECSMG.Init(ECS_EntityID);
+		ECS_Entity = createMiningMachineData();
+		Init();
 
 	}
 
 
 
-	private Entity createEntity()
+	private Entity createMiningMachineData()
 	{
 		return ECSWorld.ECSMG.CreateEntity(	typeof(DelayTimeComponent),
 											typeof(BuildActiveComponent));
 	}
+	private void Init()
+	{
+		ECSWorld.ECSMG.Init(ECS_Entity);
+		ECSWorld.ECSMG.Get<DelayTimeComponent>(ECS_Entity).value = DelayTime;
+		ECSWorld.ECSMG.Get<BuildActiveComponent>(ECS_Entity).Is = IsBuildActive;
+	}
 
-
-	//private IEnumerator mingingResource()
-	//{
-
-	//}
 
 	private void OnTriggerEnter(Collider other)
 	{
