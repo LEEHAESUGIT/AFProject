@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 namespace ECSCore
 {
-	internal class Tool
+	internal  class Tool
 	{
 		//internal static readonly int TypeID;
 
@@ -12,7 +12,24 @@ namespace ECSCore
 		{
 			ulong hash = 14695981039346656037UL;
 
-			foreach (var type in types.OrderBy(t => t.Name))
+			//foreach (var type in types.OrderBy(t => t.Name))
+			foreach (var type in types)
+			{
+				{
+					ulong typehash = (ulong)type.GetHashCode();
+					hash ^= typehash;
+					hash *= 1099511628211UL;
+				}
+			}
+			return hash;
+		}
+
+		internal static ulong CaculatorHash(int[] typesID)
+		{
+			ulong hash = 14695981039346656037UL;
+			Type[] tempTypes = ComponentTypeRegister.ReturnTypesfor(typesID);
+
+			foreach (var type in tempTypes)
 			{
 				{
 					ulong typehash = (ulong)type.GetHashCode();
@@ -47,11 +64,15 @@ namespace ECSCore
 			// 청크인덱스 계산
 			return entitycount / chunkMaxSize;
 		}
+
 		internal static int CaculatorComponentIndex(int entitycount, int chunkMaxSize)
 		{
 			// 컴포넌트 인덱스 계산
 			return entitycount % chunkMaxSize;
 		}
 		#endregion
+
+		
+
 	}
 }
